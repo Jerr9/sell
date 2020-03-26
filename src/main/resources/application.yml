@@ -1,0 +1,20 @@
+server:
+  servlet:
+    context-path: /sell
+spring:
+  profiles:
+    active: dev
+
+---
+spring:
+  profiles: dev
+  datasource:
+    url: jdbc:mysql://localhost:3306/sell?useSSL=false&characterEncoding=utf-8&serviceTimezoon=UTC
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    open-in-view: false
+    show-sql: true
+server:
+  port: 8080
