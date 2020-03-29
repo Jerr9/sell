@@ -27,6 +27,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -74,6 +75,9 @@ public class OrderMasterServiceImpl implements OrderMasterService {
         BeanUtils.copyProperties(orderDTO, orderMaster);
         // 订单号在最后设置
         orderMaster.setOrderId(orderId);
+        orderMaster.setOrderAmount(orderAmount);
+        orderMaster.setOrderStatus(OrderStatusEnum.NEW.getCode());
+        orderMaster.setPayStatus(PayStatusEnum.AWAIT.getCode());
         orderMasterRepository.save(orderMaster);
 
         // 扣减库存
@@ -95,7 +99,7 @@ public class OrderMasterServiceImpl implements OrderMasterService {
         }
         List<OrderDetail> orderDetailList = orderDetailRepository.findByOrderId(orderId);
         if (orderDetailList.size() == 0) {
-            throw new SellException(ResultEnum.ORDERDETAIL_NOT_EXIST);
+            throw new SellException(ResultEnum.ORDER_DETAIL_NOT_EXIST);
         }
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setOrderDetailList(orderDetailList);
@@ -169,5 +173,21 @@ public class OrderMasterServiceImpl implements OrderMasterService {
     @Override
     public OrderDTO paidOrder(OrderDTO orderDTO) {
         return null;
+    }
+
+    @Override
+    public OrderDTO finishOrder(OrderDTO orderDTO) {
+        if (!orderDTO.getPayStatus().equals(PayStatusEnum.PAYED.getCode())) {
+            throw new SellException(ResultEnum.ORDER_STATUS_ERROR);
+        }
+        orderDTO.setOrderStatus(OrderStatusEnum.FINISHED.getCode());
+        OrderMaster orderMaster = new OrderMaster();
+        BeanUtils.copyProperties(orderDTO, orderMaster);
+        OrderMaster updateResult = orderMasterRepository.save(orderMaster);
+        if (updateResult == null) {
+            throw new SellException(ResultEnum.ORDER_FINISH_ERROR);
+        }
+        orderDTO.setOrderStatus(updateResult.getOrderStatus());
+        return orderDTO;
     }
 }

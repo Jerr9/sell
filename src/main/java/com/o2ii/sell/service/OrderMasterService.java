@@ -26,4 +26,6 @@ public interface OrderMasterService {
     OrderDTO cancelOrder(OrderDTO orderDTO);
 
     OrderDTO paidOrder(OrderDTO orderDTO);
+
+    OrderDTO finishOrder(OrderDTO orderDTO);
 }

@@ -1,0 +1,26 @@
+{
+  "userName": "猫的名字丑哭了",
+  "phone": "18316556666",
+  "address": "广东省佛山市顺德区大良街道德胜东路顺德职业技术学院",
+  "openId": "oFtQywLXiiIJ5X52uxLYsYUSO22M",
+  "items": [
+    {
+      "productId": "223457",
+      "productQuantity": 5,
+      "orderId": "1",
+      "detailId": "1",
+      "productIcon": "",
+      "productPrice": "100",
+      "productName": ""
+    },
+    {
+      "productId": "223456",
+      "productQuantity": 5,
+      "orderId": "1",
+      "detailId": "1",
+      "productIcon": "",
+      "productPrice": "100",
+      "productName": ""
+    }
+  ]
+}

@@ -36,6 +36,11 @@ public class ResultVO<T> {
 
     }
 
+    public ResultVO(VOEnum voEnum) {
+        this.code = voEnum.getCode();
+        this.msg = voEnum.getMsg();
+    }
+
     public ResultVO(VOEnum voEnum, T data) {
         this.code = voEnum.getCode();
         this.msg = voEnum.getMsg();

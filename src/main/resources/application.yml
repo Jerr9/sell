@@ -9,12 +9,16 @@ spring:
 spring:
   profiles: dev
   datasource:
-    url: jdbc:mysql://localhost:3306/sell?useSSL=false&characterEncoding=utf-8&serviceTimezoon=UTC
+#    url: jdbc:mysql://localhost:3306/sell?useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/sell?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     open-in-view: false
     show-sql: true
+  jackson:
+    # 配置字段值为null时，不返回字段
+    default-property-inclusion: non_null
 server:
   port: 8080

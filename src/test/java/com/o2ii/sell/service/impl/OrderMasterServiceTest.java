@@ -32,12 +32,15 @@ public class OrderMasterServiceTest {
 
     @Test
     public void createOrderTest() throws Exception {
+        OrderMaster om = new OrderMaster();
+        System.out.println(om.getPayStatus());
+        System.out.println(om.getOrderStatus());
+        System.out.println("om.getOrderStatus()");
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setBuyerOpenid(OPENID);
         orderDTO.setBuyerName("猫的名字丑哭了");
         orderDTO.setBuyerPhone("18316556113");
         orderDTO.setBuyerAddress("广东省**市**县**镇**三路4号");
-        orderDTO.setOrderAmount(new BigDecimal(12998.00));
         List<OrderDetail> orderDetailList = new ArrayList<>();
         OrderDetail orderDetailOne = new OrderDetail();
         orderDetailOne.setProductId("400001");
@@ -84,6 +87,13 @@ public class OrderMasterServiceTest {
     public void cancelOrderTest() throws Exception {
         OrderDTO orderDTO = orderMasterService.findOneOrder(OPENID, ORDERID);
         OrderDTO result = orderMasterService.cancelOrder(orderDTO);
+        Assert.assertEquals(new Integer(99), result.getOrderStatus());
+    }
+
+    @Test
+    public void finishOrderTest() throws Exception {
+        OrderDTO orderDTO = orderMasterService.findOneOrder(OPENID, ORDERID);
+        OrderDTO result = orderMasterService.finishOrder(orderDTO);
         Assert.assertEquals(new Integer(2), result.getOrderStatus());
     }
 }
