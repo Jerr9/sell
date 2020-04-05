@@ -10,6 +10,7 @@ import com.o2ii.sell.service.ProductInfoService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class BuyerProductController {
     @Autowired
     private ProductCategoryService productCategoryService;
 
-    @RequestMapping(value = "/list")
+    @RequestMapping(value = "/list", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public ResultVO list() {
         // 1.查询所有上架产品
         List<ProductInfo> productInfoList = productInfoService.findUpAll();

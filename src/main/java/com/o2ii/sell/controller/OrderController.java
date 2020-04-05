@@ -43,6 +43,7 @@ public class OrderController {
         // @Valid 校验表单
         // 然后OrderForm转OrderDTO
 //        System.out.println(orderForm.toString());
+
         if (bindingResult.hasErrors()) {
             throw new SellException(ResultEnum.PARAM_ERROR.getCode(), bindingResult.getFieldError().getDefaultMessage());
         }
