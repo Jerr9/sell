@@ -10,7 +10,7 @@
     <script>
         window.onload = function() {
             new VConsole();
-            axios.post('http://rda7qu.natappfree.cc/sell/wechat/jsapiSignature', {
+            axios.post('http://p4r8db.natappfree.cc/sell/wechat/jsapiSignature', {
                 "clientUrl": window.location.href,
             })
             .then((res) => {
@@ -61,7 +61,7 @@
                     success: function (res) {
                         console.log('uploadImage success', res)
                         var serverId = res.serverId; // 返回图片的服务器端ID
-                        axios.post('http://rda7qu.natappfree.cc/sell/wechat/uploadCallback', {
+                        axios.post('http://p4r8db.natappfree.cc/sell/wechat/uploadCallback', {
                             "mediaId": serverId,
                         })
                         .then((res) => {

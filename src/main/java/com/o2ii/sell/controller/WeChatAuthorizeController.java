@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class WeChatAuthorizeController {
 
+    static final String domain = "http://p4r8db.natappfree.cc";
+
     @Autowired
     private WxMpService wxMpService;
 
@@ -23,8 +25,9 @@ public class WeChatAuthorizeController {
     public String authorize() {
         // 1配置
         // 2调用方法
-        String url = "http://rda7qu.natappfree.cc/sell/wechat/userInfo";
-        String redirectUrl = wxMpService.oauth2buildAuthorizationUrl(url, WxConsts.OAUTH2_SCOPE_USER_INFO, "http://rda7qu.natappfree.cc/sell/index.html/");
+        String url = domain + "/sell/wechat/userInfo",
+                state = domain + "/sell/index.html/";
+        String redirectUrl = wxMpService.oauth2buildAuthorizationUrl(url, WxConsts.OAUTH2_SCOPE_USER_INFO, state);
 
         log.info("【微信网页授权】{}", redirectUrl);
         // TODO【redirect:】重定向关键字，配合【@Controller】使用，不能跟【@RestController】配合使用
