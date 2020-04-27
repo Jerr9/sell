@@ -1,5 +1,7 @@
 package com.o2ii.sell.controller;
 
+import com.o2ii.sell.dataobject.OrderMaster;
+import com.o2ii.sell.dataobject.ProductInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,5 +36,9 @@ public class MonitorController {
                         api,
                         timestamp
                     );
+
+            ProductInfo productInfo = new ProductInfo();
+        OrderMaster orderMaster = new OrderMaster();
+            System.out.println(orderMaster.toString());
     }
 }

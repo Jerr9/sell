@@ -17,7 +17,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("test")
 @Slf4j
-public class TestController {
+public class TestController extends BaseController {
 
     @GetMapping("saveByUrl")
     public String saveByUrl() throws Exception {
@@ -90,6 +90,14 @@ public class TestController {
         log.info("=======================");
         log.info(base64);
         return new ResultVO(VOEnum.SUCCESS);
+    }
+
+    @RequestMapping(value = "testFindPage", method = RequestMethod.GET)
+    public String findPage(int page, int size, Integer status, String uid) throws Exception {
+        String baseParam = getBaseParam();
+        String baseHead = getBaseHead();
+        log.info("page = {}, size ={}, status = {}, uid = {}, baseParam = {}, baseHead = {}", page, size, status, uid, baseParam, baseHead);
+        return "success";
     }
 
 }

@@ -1,5 +1,6 @@
 package com.o2ii.sell.dataobject;
 
+import com.o2ii.sell.enums.ProductStatusEnum;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -7,7 +8,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@DynamicUpdate
+//@DynamicUpdate
 @Data
 @Table(name = "product_info")
 public class ProductInfo {
@@ -32,7 +33,7 @@ public class ProductInfo {
     private String productIcon;
 
     @Column(name = "product_status")
-    private Integer productStatus;
+    private Integer productStatus = ProductStatusEnum.DOWN.getCode();
 
     @Column(name = "category_type")
     private Integer categoryType;

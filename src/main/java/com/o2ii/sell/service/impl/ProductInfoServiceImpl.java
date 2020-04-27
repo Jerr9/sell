@@ -66,4 +66,17 @@ public class ProductInfoServiceImpl implements ProductInfoService {
             productRepository.save(productInfo);
         }
     }
+
+    @Override
+    public ProductInfo onSale(String productId) {
+        ProductInfo productInfo = productRepository.findByProductId(productId);
+        if (productInfo == null) {
+            throw new SellException(ResultEnum.PRODUCT_NOT_EXIST);
+        }
+        if (productInfo.getProductStatus() == ProductStatusEnum.UP.getCode()) {
+            throw new SellException(ResultEnum.PRODUCT_STATUS_ERROR);
+        }
+        productInfo.setProductStatus(ProductStatusEnum.UP.getCode());
+        return productRepository.save(productInfo);
+    }
 }

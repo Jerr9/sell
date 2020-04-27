@@ -14,6 +14,8 @@ public enum ResultEnum {
     ORDER_FINISH_ERROR(16, "结单错误"),
     CART_EMPTY(16, "购物车为空"),
     WECHAT_MP_ERROR(20, "微信调用异常"),
+    PRODUCT_STATUS_ERROR(21, "商品状态错误"),
+    PRODUCT_CATEGORY_NOT_EXIST(22, "商品品类错误"),
     ;
 
     private Integer code;

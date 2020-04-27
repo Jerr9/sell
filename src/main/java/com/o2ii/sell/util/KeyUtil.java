@@ -13,4 +13,10 @@ public class KeyUtil {
 
         return ctm + String.valueOf(number);
     }
+
+    public static synchronized String genShortKey() {
+        Random random = new Random();
+
+        return String.valueOf(random.nextInt(666666) + 233);
+    }
 }
