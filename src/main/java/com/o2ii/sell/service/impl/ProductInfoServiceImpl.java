@@ -3,8 +3,8 @@ package com.o2ii.sell.service.impl;
 import com.o2ii.sell.dataobject.ProductInfo;
 import com.o2ii.sell.dto.CartDTO;
 import com.o2ii.sell.enums.ProductStatusEnum;
-import com.o2ii.sell.enums.ResultEnum;
-import com.o2ii.sell.exception.SellException;
+import com.o2ii.sell.enums.BusinessEnum;
+import com.o2ii.sell.exception.GlobalException;
 import com.o2ii.sell.repository.ProductInfoRepository;
 import com.o2ii.sell.service.ProductInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,11 +56,11 @@ public class ProductInfoServiceImpl implements ProductInfoService {
         for(CartDTO cartDTO : cartDTOList) {
             ProductInfo productInfo = productRepository.findByProductId(cartDTO.getProductId());
             if (productInfo == null) {
-                throw new SellException(ResultEnum.PRODUCT_NOT_EXIST);
+                throw new GlobalException(BusinessEnum.PRODUCT_NOT_EXIST);
             }
             Integer result = productInfo.getProductStock() - cartDTO.getProductQuantity();
             if (result < 0) {
-                throw new SellException(ResultEnum.PRODUCT_OUT_OF_STOCK);
+                throw new GlobalException(BusinessEnum.PRODUCT_OUT_OF_STOCK);
             }
             productInfo.setProductStock(result);
             productRepository.save(productInfo);
@@ -71,10 +71,10 @@ public class ProductInfoServiceImpl implements ProductInfoService {
     public ProductInfo onSale(String productId) {
         ProductInfo productInfo = productRepository.findByProductId(productId);
         if (productInfo == null) {
-            throw new SellException(ResultEnum.PRODUCT_NOT_EXIST);
+            throw new GlobalException(BusinessEnum.PRODUCT_NOT_EXIST);
         }
         if (productInfo.getProductStatus() == ProductStatusEnum.UP.getCode()) {
-            throw new SellException(ResultEnum.PRODUCT_STATUS_ERROR);
+            throw new GlobalException(BusinessEnum.PRODUCT_STATUS_ERROR);
         }
         productInfo.setProductStatus(ProductStatusEnum.UP.getCode());
         return productRepository.save(productInfo);

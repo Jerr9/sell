@@ -3,7 +3,7 @@ package com.o2ii.sell.enums;
 import lombok.Getter;
 
 @Getter
-public enum ResultEnum {
+public enum BusinessEnum {
     PARAM_ERROR(1, "参数不正确"),
     PRODUCT_NOT_EXIST(10, "商品不存在"),
     PRODUCT_OUT_OF_STOCK(11, "商品库存不足"),
@@ -16,13 +16,19 @@ public enum ResultEnum {
     WECHAT_MP_ERROR(20, "微信调用异常"),
     PRODUCT_STATUS_ERROR(21, "商品状态错误"),
     PRODUCT_CATEGORY_NOT_EXIST(22, "商品品类错误"),
+    PRODUCT_CATEGORY_ADD_ERROR(23, "添加商品品类错误"),
+    PRODUCT_CATEGORY_EDIT_ERROR(24, "编辑商品品类错误"),
+
+
+
+    AUTHORIZE_ERROR(4001, "当前用户未登录"),
     ;
 
     private Integer code;
 
     private String msg;
 
-    ResultEnum(Integer code, String msg) {
+    BusinessEnum(Integer code, String msg) {
         this.code = code;
         this.msg = msg;
     }

@@ -8,15 +8,14 @@ import com.o2ii.sell.dto.CartDTO;
 import com.o2ii.sell.dto.OrderDTO;
 import com.o2ii.sell.enums.OrderStatusEnum;
 import com.o2ii.sell.enums.PayStatusEnum;
-import com.o2ii.sell.enums.ResultEnum;
-import com.o2ii.sell.exception.SellException;
+import com.o2ii.sell.enums.BusinessEnum;
+import com.o2ii.sell.exception.GlobalException;
 import com.o2ii.sell.repository.OrderDetailRepository;
 import com.o2ii.sell.repository.OrderMasterRepository;
 import com.o2ii.sell.repository.ProductInfoRepository;
 import com.o2ii.sell.service.OrderMasterService;
 import com.o2ii.sell.service.ProductInfoService;
 import com.o2ii.sell.util.KeyUtil;
-import com.o2ii.sell.vo.OrderDetailVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -27,7 +26,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -56,7 +54,7 @@ public class OrderMasterServiceImpl implements OrderMasterService {
             ProductInfo productInfo = productInfoRepository.findByProductId(orderDetail.getProductId());
             // 产品是否存在
             if (productInfo == null) {
-                throw new SellException(ResultEnum.PRODUCT_NOT_EXIST);
+                throw new GlobalException(BusinessEnum.PRODUCT_NOT_EXIST);
             }
 //            if (productInfo.getProductStock() < orderDetail.getProductQuantity()) {
 //                throw new SellException(ResultEnum.PRODUCT_OUT_OF_STOCK);
@@ -95,11 +93,11 @@ public class OrderMasterServiceImpl implements OrderMasterService {
     public OrderDTO findOneOrder(String buyerOpenid, String orderId) {
         OrderMaster orderMaster = orderMasterRepository.findByBuyerOpenidAndOrderId(buyerOpenid, orderId);
         if (orderMaster == null) {
-            throw new SellException(ResultEnum.ORDER_NOT_EXIST);
+            throw new GlobalException(BusinessEnum.ORDER_NOT_EXIST);
         }
         List<OrderDetail> orderDetailList = orderDetailRepository.findByOrderId(orderId);
         if (orderDetailList.size() == 0) {
-            throw new SellException(ResultEnum.ORDER_DETAIL_NOT_EXIST);
+            throw new GlobalException(BusinessEnum.ORDER_DETAIL_NOT_EXIST);
         }
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setOrderDetailList(orderDetailList);
@@ -146,14 +144,14 @@ public class OrderMasterServiceImpl implements OrderMasterService {
         BeanUtils.copyProperties(orderDTO, orderMaster);
         // 判断订单状态
         if (orderMaster.getOrderStatus().equals(OrderStatusEnum.NEW.getCode())) {
-            throw new SellException(ResultEnum.ORDER_STATUS_ERROR);
+            throw new GlobalException(BusinessEnum.ORDER_STATUS_ERROR);
         }
         // 修改订单状态
         orderMaster.setOrderStatus(OrderStatusEnum.CANCEL.getCode());
         BeanUtils.copyProperties(orderMaster, orderDTO);
         OrderMaster updateResult = orderMasterRepository.save(orderMaster);
         if (updateResult == null) {
-            throw new SellException(ResultEnum.ORDER_UPDATE_ERROR);
+            throw new GlobalException(BusinessEnum.ORDER_UPDATE_ERROR);
         }
         // 返回库存
         String id = orderMaster.getOrderId();
@@ -178,14 +176,14 @@ public class OrderMasterServiceImpl implements OrderMasterService {
     @Override
     public OrderDTO finishOrder(OrderDTO orderDTO) {
         if (!orderDTO.getPayStatus().equals(PayStatusEnum.PAYED.getCode())) {
-            throw new SellException(ResultEnum.ORDER_STATUS_ERROR);
+            throw new GlobalException(BusinessEnum.ORDER_STATUS_ERROR);
         }
         orderDTO.setOrderStatus(OrderStatusEnum.FINISHED.getCode());
         OrderMaster orderMaster = new OrderMaster();
         BeanUtils.copyProperties(orderDTO, orderMaster);
         OrderMaster updateResult = orderMasterRepository.save(orderMaster);
         if (updateResult == null) {
-            throw new SellException(ResultEnum.ORDER_FINISH_ERROR);
+            throw new GlobalException(BusinessEnum.ORDER_FINISH_ERROR);
         }
         orderDTO.setOrderStatus(updateResult.getOrderStatus());
         return orderDTO;

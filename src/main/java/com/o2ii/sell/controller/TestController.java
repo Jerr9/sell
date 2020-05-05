@@ -1,9 +1,15 @@
 package com.o2ii.sell.controller;
 
-import com.o2ii.sell.enums.VOEnum;
-import com.o2ii.sell.vo.ResultVO;
+import com.o2ii.sell.dto.OrderDTO;
+import com.o2ii.sell.enums.BasicEnum;
+import com.o2ii.sell.enums.BusinessEnum;
+import com.o2ii.sell.exception.GlobalException;
+import com.o2ii.sell.result.ResponseData;
+import com.o2ii.sell.service.OrderMasterService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import sun.misc.BASE64Decoder;
@@ -18,6 +24,9 @@ import java.util.Map;
 @RequestMapping("test")
 @Slf4j
 public class TestController extends BaseController {
+
+    @Autowired
+    OrderMasterService orderMasterService;
 
     @GetMapping("saveByUrl")
     public String saveByUrl() throws Exception {
@@ -49,12 +58,12 @@ public class TestController extends BaseController {
     }
 
     @PostMapping("uploadByBase64")
-    public ResultVO uploadByBase64(@RequestBody Map<String, String> paramMap) throws Exception {
+    public ResponseData uploadByBase64(@RequestBody Map<String, String> paramMap) throws Exception {
         String base64Str = paramMap.get("base64");
         String fileName = paramMap.get("fileName");
         log.info(base64Str);
         if ("".equals(base64Str) || "".equals(fileName)) {
-            return new ResultVO(VOEnum.FAIL);
+            return new ResponseData(BasicEnum.FAIL);
         }
         String[] list = base64Str.split("base64,");
         if (list.length == 2) {
@@ -71,13 +80,13 @@ public class TestController extends BaseController {
             fileOutputStream.close();
         }
         else {
-            return new ResultVO(VOEnum.FAIL);
+            return new ResponseData(BasicEnum.FAIL);
         }
-        return new ResultVO(VOEnum.SUCCESS);
+        return new ResponseData(BasicEnum.SUCCESS);
     }
 
     @RequestMapping(value = "testAvailable", method = RequestMethod.POST)
-    public ResultVO testAvailable() throws Exception {
+    public ResponseData testAvailable() throws Exception {
         FileInputStream fileInputStream = new FileInputStream("E:\\workspace\\java\\storage\\files\\images\\base64.png");
         ByteArrayOutputStream byteArrayInputStream = new ByteArrayOutputStream();
         BASE64Encoder base64Encoder = new BASE64Encoder();
@@ -89,7 +98,7 @@ public class TestController extends BaseController {
         String base64 = base64Encoder.encode(byteArrayInputStream.toByteArray());
         log.info("=======================");
         log.info(base64);
-        return new ResultVO(VOEnum.SUCCESS);
+        return new ResponseData(BasicEnum.SUCCESS);
     }
 
     @RequestMapping(value = "testFindPage", method = RequestMethod.GET)
@@ -98,6 +107,18 @@ public class TestController extends BaseController {
         String baseHead = getBaseHead();
         log.info("page = {}, size ={}, status = {}, uid = {}, baseParam = {}, baseHead = {}", page, size, status, uid, baseParam, baseHead);
         return "success";
+    }
+
+    @RequestMapping(value = "testGlobalExceptionHandler")
+    public ResponseData testGlobalExceptionHandler(@RequestParam("openId") String openId,
+                                                   @RequestParam("orderId") String orderId
+    ) {
+        if (StringUtils.isEmpty(openId) || StringUtils.isEmpty(orderId)) {
+            throw new GlobalException(BusinessEnum.PARAM_ERROR);
+        }
+        OrderDTO orderDTO = orderMasterService.findOneOrder(openId, orderId);
+        ResponseData<OrderDTO> result = new ResponseData(BasicEnum.SUCCESS, orderDTO);
+        return result;
     }
 
 }

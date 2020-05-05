@@ -8,9 +8,10 @@
     <script src="https://cdn.bootcss.com/axios/0.19.2/axios.js"></script>
     <script src="http://res2.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
     <script>
+        const baseUrl = 'http://base.nat300.top';
         window.onload = function() {
             new VConsole();
-            axios.post('http://p4r8db.natappfree.cc/sell/wechat/jsapiSignature', {
+            axios.post(baseUrl + '/sell/wechat/jsapiSignature', {
                 "clientUrl": window.location.href,
             })
             .then((res) => {
@@ -61,11 +62,11 @@
                     success: function (res) {
                         console.log('uploadImage success', res)
                         var serverId = res.serverId; // 返回图片的服务器端ID
-                        axios.post('http://p4r8db.natappfree.cc/sell/wechat/uploadCallback', {
+                        axios.post(baseUrl + '/sell/wechat/uploadCallback', {
                             "mediaId": serverId,
                         })
                         .then((res) => {
-                            alert("聪哥照片已上传，请通知伦弟看服务器")
+                            alert("图片已上传")
                         })
                     },
                     fail: function (e) {

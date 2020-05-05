@@ -10,7 +10,7 @@ public class FetchTmpUtil {
     public static File fetchTmpFile(String url, String dir){
         try {
             URL u = new URL(url);
-            HttpURLConnection  conn = (HttpURLConnection) u.openConnection();
+            HttpURLConnection conn = (HttpURLConnection) u.openConnection();
             conn.setRequestMethod("POST");
             conn.connect();
             BufferedInputStream bis = new BufferedInputStream(conn.getInputStream());
@@ -18,14 +18,14 @@ public class FetchTmpUtil {
             //微信服务器生成的文件名称
             String file_name ="";
             String[] content_arr = content_disposition.split(";");
-            if(content_arr.length  == 2){
+            if(content_arr.length == 2){
                 String tmp = content_arr[1];
                 int index = tmp.indexOf("\"");
                 file_name =tmp.substring(index+1, tmp.length()-1);
             }
 
             //生成不同文件名称
-            File file = new File(file_name);
+            File file = new File(dir + file_name);
             BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
             byte[] buf = new byte[2048];
             int length = bis.read(buf);

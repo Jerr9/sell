@@ -1,11 +1,8 @@
 package com.o2ii.sell.form;
 
-import com.o2ii.sell.dataobject.OrderDetail;
-import com.o2ii.sell.vo.OrderDetailVO;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
-import java.util.List;
 
 @Data
 public class OrderForm {

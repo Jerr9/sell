@@ -26,6 +26,7 @@ spring:
   jackson:
     # 配置字段值为null时，不返回字段
     default-property-inclusion: non_null
+    time-zone: GMT+8
   redis:
     database: 0 # Redis数据库索引（默认为0）
     host: 127.0.0.1 # Redis服务器地址
@@ -35,7 +36,7 @@ spring:
     max-wait: 5 # 连接池最大阻塞等待时间（使用负值表示没有限制）
     max-idle: 10 # 连接池中的最大空闲连接
     min-idle: 10 # 连接池中的最小空闲连接
-    timeout: 10007 # 连接超时时间（毫秒）
+    timeout: 10000 # 连接超时时间（毫秒）
 # 模板引擎1 thymeleaf
 #  thymeleaf:
 #    # 开发过程中建议关闭cache
@@ -57,12 +58,19 @@ spring:
 
 server:
   port: 8080
+logging:
+  level:
+    com.o2ii.sell.mapper: trace # 打印mybatis执行的sql
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
 
 # 我的测试号
 wechat:
   appId: wx8e61a539e50ac0ef
   appSecret: 9a77386f2b9cdfcda5d573b9849b5bc4
-
+base-config:
+  domains:
+    base-domain: http://base.nat300.top
 paths:
   file:
-    image: F:\workspace\java\storage\files\images\
+    image: E:\workspace\java\storage\files\images\

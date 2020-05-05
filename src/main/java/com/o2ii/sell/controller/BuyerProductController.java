@@ -2,7 +2,7 @@ package com.o2ii.sell.controller;
 
 import com.o2ii.sell.vo.ProductInfoVO;
 import com.o2ii.sell.vo.ProductVO;
-import com.o2ii.sell.vo.ResultVO;
+import com.o2ii.sell.result.ResponseData;
 import com.o2ii.sell.dataobject.ProductCategory;
 import com.o2ii.sell.dataobject.ProductInfo;
 import com.o2ii.sell.service.ProductCategoryService;
@@ -29,7 +29,7 @@ public class BuyerProductController {
     private ProductCategoryService productCategoryService;
 
     @RequestMapping(value = "/list", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
-    public ResultVO list() {
+    public ResponseData list() {
         // 1.查询所有上架产品
         List<ProductInfo> productInfoList = productInfoService.findUpAll();
         // 2.查询所有类目
@@ -75,7 +75,7 @@ public class BuyerProductController {
             productVOList.add(productVO);
         }
 
-        ResultVO resultVO = new ResultVO();
+        ResponseData resultVO = new ResponseData();
         ProductInfoVO productInfoVO = new ProductInfoVO();
 
         ProductVO productVO = new ProductVO();

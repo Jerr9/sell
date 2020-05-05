@@ -3,8 +3,8 @@ package com.o2ii.sell.service.impl;
 import com.o2ii.sell.dataobject.ProductCategory;
 import com.o2ii.sell.dataobject.ProductInfo;
 import com.o2ii.sell.dto.SellerProductDTO;
-import com.o2ii.sell.enums.ResultEnum;
-import com.o2ii.sell.exception.SellException;
+import com.o2ii.sell.enums.BusinessEnum;
+import com.o2ii.sell.exception.GlobalException;
 import com.o2ii.sell.repository.ProductInfoRepository;
 import com.o2ii.sell.service.ProductCategoryService;
 import com.o2ii.sell.service.ProductInfoService;
@@ -37,7 +37,7 @@ public class SellerProductServiceImpl implements SellerProductService {
         // 查询是否存在产品类型
         ProductCategory productCategory = productCategoryService.findOne(categoryType);
         if (productCategory == null) {
-            throw new SellException(ResultEnum.PRODUCT_CATEGORY_NOT_EXIST);
+            throw new GlobalException(BusinessEnum.PRODUCT_CATEGORY_NOT_EXIST);
         }
 
         ProductInfo productInfo = new ProductInfo();
