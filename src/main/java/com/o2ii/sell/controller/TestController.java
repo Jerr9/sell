@@ -9,6 +9,7 @@ import com.o2ii.sell.service.OrderMasterService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,6 +28,11 @@ public class TestController extends BaseController {
 
     @Autowired
     OrderMasterService orderMasterService;
+
+    @Autowired
+    StringRedisTemplate stringRedisTemplate;
+
+    private Object obj = new Object();
 
     @GetMapping("saveByUrl")
     public String saveByUrl() throws Exception {
@@ -121,4 +127,19 @@ public class TestController extends BaseController {
         return result;
     }
 
+    // 高并发问题, Redis: setNX， Redisson
+    @RequestMapping(value = "testConcurrent")
+    public String testConcurrent() {
+        String flag = "失败";
+        synchronized(obj) {
+            Integer realStock = Integer.parseInt(stringRedisTemplate.opsForValue().get("stock"));
+            if (realStock >= 1) {
+                realStock--;
+                stringRedisTemplate.opsForValue().set("stock", realStock + "");
+                log.info("【库存剩余】= {}", realStock);
+                return "Success: " + realStock;
+            }
+        }
+        return "End: " + flag;
+    }
 }
