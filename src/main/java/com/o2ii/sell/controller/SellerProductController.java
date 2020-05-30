@@ -1,15 +1,16 @@
 package com.o2ii.sell.controller;
 
 import com.o2ii.sell.dto.SellerProductDTO;
-import com.o2ii.sell.enums.BusinessEnum;
 import com.o2ii.sell.enums.BasicEnum;
+import com.o2ii.sell.enums.BusinessEnum;
 import com.o2ii.sell.exception.GlobalException;
 import com.o2ii.sell.form.ProductForm;
-import com.o2ii.sell.service.SellerProductService;
 import com.o2ii.sell.result.ResponseData;
+import com.o2ii.sell.service.SellerProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,6 +45,7 @@ public class SellerProductController {
     }
 
     @RequestMapping(value = "edit")
+    @CacheEvict(cacheNames = "productList", key = "123")
     public ResponseData editProduct(@RequestBody ProductForm productForm, BindingResult bindingResult) throws Exception {
         if ("".equals(productForm.getProductId())) {
             throw new GlobalException(BusinessEnum.PARAM_ERROR.getCode(), "productId 不能为空");

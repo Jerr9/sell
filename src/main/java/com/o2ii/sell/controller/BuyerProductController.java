@@ -9,6 +9,7 @@ import com.o2ii.sell.service.ProductCategoryService;
 import com.o2ii.sell.service.ProductInfoService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,8 +30,10 @@ public class BuyerProductController {
     private ProductCategoryService productCategoryService;
 
     @RequestMapping(value = "/list", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @Cacheable(cacheNames = "productList", key = "123")
     public ResponseData list() {
         // 1.查询所有上架产品
+        System.out.println("ssss------s");
         List<ProductInfo> productInfoList = productInfoService.findUpAll();
         // 2.查询所有类目
 //        List<Integer> categoryTypeList = new ArrayList<>();

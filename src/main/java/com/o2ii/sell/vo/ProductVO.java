@@ -3,13 +3,15 @@ package com.o2ii.sell.vo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class ProductVO {
+public class ProductVO implements Serializable {
 
+    private static final long serialVersionUID = 7738100777287655158L;
     /**
-     * @JsonProperty 返回到前端就是name
+     * @JsonProperty 返回到前端就是name1
      */
     @JsonProperty("name")
     private String categoryName;

@@ -3,11 +3,13 @@ package com.o2ii.sell.vo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Data
-public class ProductInfoVO {
+public class ProductInfoVO implements Serializable {
 
+    private static final long serialVersionUID = -4645857641360414723L;
     @JsonProperty("id")
     private String productId;
 

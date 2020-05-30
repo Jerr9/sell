@@ -3,8 +3,12 @@ package com.o2ii.sell.result;
 import com.o2ii.sell.enums.BasicEnum;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class ResponseData<T> {
+public class ResponseData<T> implements Serializable {
+
+    private static final long serialVersionUID = 2029608653070294747L;
     /**
      * 状态码
      */
