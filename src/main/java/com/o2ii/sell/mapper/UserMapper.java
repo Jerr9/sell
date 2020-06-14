@@ -37,5 +37,10 @@ public interface UserMapper {
     @Update("update t_user set mobile=#{mobile}, age=#{age} where uid = #{uid}")
     int updateAgeAndMobileByUid(@Param("uid") String uid, @Param("mobile") String mobile, @Param("age") Integer age);
 
+    /**
+     * 使用xml配置文件
+     * @param uid
+     * @return
+     */
     User selectByUid(String uid);
 }
