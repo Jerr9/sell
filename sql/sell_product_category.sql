@@ -1,0 +1,4 @@
+INSERT INTO sell.product_category (category_id, category_name, category_type, create_time, update_time) VALUES (1, '手机数码', 1, '2020-03-21 18:42:36', '2020-03-22 21:42:36');
+INSERT INTO sell.product_category (category_id, category_name, category_type, create_time, update_time) VALUES (2, '美容美妆', 2, '2020-03-21 18:42:53', '2020-03-22 21:42:43');
+INSERT INTO sell.product_category (category_id, category_name, category_type, create_time, update_time) VALUES (3, '美食每刻', 3, '2020-03-22 14:55:49', '2020-03-22 21:43:04');
+INSERT INTO sell.product_category (category_id, category_name, category_type, create_time, update_time) VALUES (4, '家电产品', 4, '2020-03-22 14:55:49', '2020-03-22 21:43:04');
